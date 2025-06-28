@@ -6,7 +6,7 @@ async function setupDatabase() {
     console.log('🔧 Setting up database with sample data...');
 
     const db = await open({
-        filename: './menu_manager.db',
+        filename: './data/menu_manager.db',
         driver: sqlite3.Database
     });
 
@@ -173,7 +173,7 @@ async function setupDatabase() {
 // Helper function to display current database contents
 async function showDatabaseContents() {
     const db = await open({
-        filename: './menu_manager.db',
+        filename: './data/menu_manager.db',
         driver: sqlite3.Database
     });
 

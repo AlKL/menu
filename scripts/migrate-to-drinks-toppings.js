@@ -4,7 +4,7 @@ const path = require('path');
 
 async function migrateDatabase() {
     const db = await open({
-        filename: path.join(__dirname, '..', 'menu_manager.db'),
+        filename: path.join(__dirname, '..', 'data', 'menu_manager.db'),
         driver: sqlite3.Database
     });
 
@@ -109,7 +109,7 @@ async function migrateDatabase() {
 // Add some sample toppings data
 async function addSampleToppings() {
     const db = await open({
-        filename: path.join(__dirname, '..', 'menu_manager.db'),
+        filename: path.join(__dirname, '..', 'data', 'menu_manager.db'),
         driver: sqlite3.Database
     });
 

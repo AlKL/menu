@@ -9,7 +9,7 @@ BACKUP_FILE="$BACKUP_DIR/menu_manager_$TIMESTAMP.db"
 mkdir -p $BACKUP_DIR
 
 # Create backup
-cp menu_manager.db $BACKUP_FILE
+cp data/menu_manager.db $BACKUP_FILE
 
 # Keep only last 7 days of backups
 find $BACKUP_DIR -name "menu_manager_*.db" -mtime +7 -delete

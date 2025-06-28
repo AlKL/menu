@@ -416,7 +416,7 @@ class UberEatsMenuManager {
 
     async initializeDatabase() {
         this.db = await open({
-            filename: './menu_manager.db',
+            filename: './data/menu_manager.db',
             driver: sqlite3.Database
         });
 

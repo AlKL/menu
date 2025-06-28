@@ -14,7 +14,6 @@ services:
       - UBEREATS_ACCESS_TOKEN=${UBEREATS_ACCESS_TOKEN}
     volumes:
       - ./data:/app/data
-      - ./menu_manager.db:/app/menu_manager.db
     restart: unless-stopped
     networks:
       - menu-network

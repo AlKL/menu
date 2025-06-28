@@ -28,7 +28,7 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
 # Create an entrypoint script to run migrations before starting the server
 RUN echo '#!/bin/sh' > /app/entrypoint.sh && \
     echo '# Run database setup if database does not exist' >> /app/entrypoint.sh && \
-    echo 'if [ ! -f "./menu_manager.db" ]; then' >> /app/entrypoint.sh && \
+    echo 'if [ ! -f "./data/menu_manager.db" ]; then' >> /app/entrypoint.sh && \
     echo '  echo "Database not found. Running initial setup..."' >> /app/entrypoint.sh && \
     echo '  node scripts/setup-database.js' >> /app/entrypoint.sh && \
     echo 'fi' >> /app/entrypoint.sh && \

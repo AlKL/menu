@@ -4,7 +4,7 @@ const path = require('path');
 
 async function testDrinksToppings() {
     const db = await open({
-        filename: path.join(__dirname, '..', 'menu_manager.db'),
+        filename: path.join(__dirname, '..', 'data', 'menu_manager.db'),
         driver: sqlite3.Database
     });
 
