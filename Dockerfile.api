@@ -1,0 +1,45 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install curl for health checks
+RUN apk add --no-cache curl
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Copy application code
+COPY api-server.js ./
+COPY scripts/ ./scripts/
+
+# Create data directory for SQLite
+RUN mkdir -p /app/data
+
+# Expose port
+EXPOSE 3001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3001/health || exit 1
+
+# Create an entrypoint script to run migrations before starting the server
+RUN echo '#!/bin/sh' > /app/entrypoint.sh && \
+    echo '# Run database setup if database does not exist' >> /app/entrypoint.sh && \
+    echo 'if [ ! -f "./menu_manager.db" ]; then' >> /app/entrypoint.sh && \
+    echo '  echo "Database not found. Running initial setup..."' >> /app/entrypoint.sh && \
+    echo '  node scripts/setup-database.js' >> /app/entrypoint.sh && \
+    echo 'fi' >> /app/entrypoint.sh && \
+    echo '' >> /app/entrypoint.sh && \
+    echo '# Run migration to add drinks/toppings support' >> /app/entrypoint.sh && \
+    echo 'echo "Running database migrations..."' >> /app/entrypoint.sh && \
+    echo 'node scripts/migrate-to-drinks-toppings.js || echo "Migration already applied or failed"' >> /app/entrypoint.sh && \
+    echo '' >> /app/entrypoint.sh && \
+    echo '# Start the API server' >> /app/entrypoint.sh && \
+    echo 'exec node api-server.js' >> /app/entrypoint.sh && \
+    chmod +x /app/entrypoint.sh
+
+# Use the entrypoint script
+ENTRYPOINT ["/app/entrypoint.sh"]

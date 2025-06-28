@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  menu-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: ubereats-menu-api
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - UBEREATS_STORE_ID=${UBEREATS_STORE_ID}
+      - UBEREATS_ACCESS_TOKEN=${UBEREATS_ACCESS_TOKEN}
+    volumes:
+      - ./data:/app/data
+      - ./menu_manager.db:/app/menu_manager.db
+    restart: unless-stopped
+    networks:
+      - menu-network
+
+  discord-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    container_name: ubereats-discord-bot
+    environment:
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
+      - API_BASE_URL=http://menu-api:3001
+      - ALLOWED_CHANNELS=${ALLOWED_CHANNELS}
+    depends_on:
+      - menu-api
+    restart: unless-stopped
+    networks:
+      - menu-network
+
+networks:
+  menu-network:
+    driver: bridge
+
+volumes:
+  db-data:

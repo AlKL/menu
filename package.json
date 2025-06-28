@@ -1,0 +1,44 @@
+{
+  "name": "menu-manager",
+  "version": "1.0.0",
+  "description": "Discord bot for managing menu items",
+  "main": "api-server.js",
+  "scripts": {
+    "start": "node api-server.js",
+    "start:prod": "NODE_ENV=production concurrently \"npm run start\" \"npm run bot\"",
+    "bot": "node discord-bot.js",
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:bot\"",
+    "dev:api": "nodemon api-server.js",
+    "dev:bot": "nodemon discord-bot.js",
+    "setup-db": "node scripts/setup-database.js",
+    "migrate": "node scripts/migrate-to-drinks-toppings.js",
+    "test-db": "node scripts/test-drinks-toppings.js",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
+  },
+  "dependencies": {
+    "discord.js": "^14.14.1",
+    "express": "^4.18.2",
+    "axios": "^1.6.2",
+    "sqlite3": "^5.1.6",
+    "sqlite": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "concurrently": "^8.2.2"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "ubereats",
+    "menu",
+    "restaurant",
+    "automation"
+  ],
+  "author": "Alex",
+  "license": "MIT"
+}
